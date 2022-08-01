@@ -12,7 +12,6 @@ import { addNewTask, getAllTasks } from "./features/todo/apis/tasks";
 import Spacer from "./components/Spacer";
 const App = () => {
   const [title, setTitle] = useState("")
-  const [todos, setTodos] = useState([])
   const queryClient = useQueryClient()
   const [addTodo, setAddTodo] = useState(false)
   const { data, isLoading } = useQuery(["tasks"], getAllTasks)
@@ -27,7 +26,6 @@ const App = () => {
       queryClient.invalidateQueries(['tasks'])
     }
   })
-  console.log(todos)
   return <Container>
     {isLoading ? <div>loading tasks</div> : (
       <TodoListWrapper>
@@ -50,11 +48,6 @@ const App = () => {
   </Container>
 }
 
-function addNewTodo(todos, newTodo) {
-  const copiedTodo = [...todos]
-  copiedTodo.push(newTodo)
-  return copiedTodo;
-}
 
 
 

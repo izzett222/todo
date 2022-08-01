@@ -5,37 +5,48 @@ import Title from "./features/todo/Title";
 import addButton from "./resources/add.svg"
 import line from "./resources/line.svg"
 import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { addNewTask, getAllTasks } from "./features/todo/apis/tasks";
+
+
 import Spacer from "./components/Spacer";
 const App = () => {
   const [title, setTitle] = useState("")
   const [todos, setTodos] = useState([])
+  const queryClient = useQueryClient()
   const [addTodo, setAddTodo] = useState(false)
+  const { data, isLoading } = useQuery(["tasks"], getAllTasks)
   const handleTitle = (value) => {
     setTitle(value)
   }
   const showAddTodo = () => {
     setAddTodo(true)
   }
-  const handleNew = (newTodo) => {
-    setTodos(addNewTodo(todos, newTodo));
-  }
+  const taskMutation  = useMutation(addNewTask, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(['tasks'])
+    }
+  })
   console.log(todos)
   return <Container>
-    <TodoListWrapper>
-      <Title title={title} handleTitle={handleTitle} />
-      <TodoList todos={todos} />
-      {addTodo ? (<>
-        <LineBreak />
-        <AddNewTask  add={handleNew} />
-      </>) : (<>
-        {!todos.length && (<><Text>Click here to create a new task</Text>
-        <Line src={line} alt="curved line"/></>) }
-        {!!todos.length && <Spacer size={1} />}
-        <Button onClick={showAddTodo}>
-          <img src={addButton} alt="button" />
-          <span>create task</span>
-        </Button></>)}
-    </TodoListWrapper>
+    {isLoading ? <div>loading tasks</div> : (
+      <TodoListWrapper>
+        <Title title={title} handleTitle={handleTitle} />
+        <TodoList todos={data} />
+        {addTodo ? (<>
+          <LineBreak />
+          <AddNewTask add={taskMutation.mutate} />
+        </>) : (<>
+          {!data.length && (<><Text>Click here to create a new task</Text>
+            <Line src={line} alt="curved line" /></>)}
+          {!!data.length && <Spacer size={1} />}
+          <Button onClick={showAddTodo}>
+            <img src={addButton} alt="button" />
+            <span>create task</span>
+          </Button></>)}
+      </TodoListWrapper>
+    )}
+
   </Container>
 }
 

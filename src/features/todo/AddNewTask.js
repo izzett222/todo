@@ -8,7 +8,9 @@ const AddNewTask = ({ add }) => {
             name: event.target[0].value,
             isDone: false
         }
-        return add(newTodo)
+
+        add(newTodo)
+        event.target[0].value = ""
     }
     return (
         <Container onSubmit={handleSubmit}>

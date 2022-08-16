@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import TodoItem from "./TodoItem";
 const TodoList = ({ todos }) => {
-    console.log(!!todos.length ? 'scroll' : 'none', !todos.length, todos.length)
     return (
         <Container shouldScroll = {!!todos.length}>
             {!todos.length ? (<NotTodo><span>You don’t have any task to complete</span></NotTodo>) :
@@ -17,7 +16,8 @@ const Container = styled.div`
     width: auto;
     margin-left: 32px;
     margin-right: 32px;
-    max-height: 190px;
+    flex: 1;
+    height: 190px;
     overflow-y: ${({shouldScroll}) => shouldScroll ? 'scroll' : 'none' };
 `
 const NotTodo = styled.div`

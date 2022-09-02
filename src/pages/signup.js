@@ -1,15 +1,31 @@
 import styled from "styled-components";
 import { useAuth } from "../auth";
 import { signupApi } from "../features/todo/user/apis/auth";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { Loader } from "../components/loader";
 
 const Signup = () => {
     const { token, setToken } = useAuth()
+    const navigate = useNavigate()
+    const { mutate, error, isLoading, isError } = useMutation(signupApi, {
+        onSuccess: (data) => {
+            setToken(data.token)
+            navigate("/dashboard")
+        },
+        onError: (error) => {
+            setToken(null)
+        }
+    })
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(e.target[0])
         const user = { username: e.target[0].value, password: e.target[1].value}
-        signupApi(user).then(data => console.log(data))
+        mutate(user)
 
+    }
+    const emailTakenMessage = error?.response?.data?.message.includes("already exist") ? "email already taken" : null
+    if (token) {
+        return navigate('/dashboard')
     }
     return <Container>
         <SignupWrapper>
@@ -20,8 +36,11 @@ const Signup = () => {
                 <Input required placeholder="Enter your Username" />
                 <Label>Password</Label>
                 <Input required placeholder="Enter your Password" type="password" />
-                <ErrorWrapper>wrong email or password</ErrorWrapper>
-                <Button>join</Button>
+                {isError && <ErrorWrapper>{emailTakenMessage}</ErrorWrapper>}
+                <Button disabled={isLoading}>
+                {isLoading && <Loader className="loading" />}
+                {isLoading ? 'joining' : 'join'}
+                </Button>
             </form>
         </SignupWrapper>
     </Container>
@@ -32,6 +51,12 @@ const Container = styled.div`
     height: 100%;
     background: #E8EFEB;
     position: relative;
+    .loading {
+        background: white;
+        margin-right: 6px;
+        position: relative;
+        top: 4px;
+    }
 `
 const SignupWrapper = styled.div`
     width: fit-content;

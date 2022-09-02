@@ -1,28 +1,21 @@
-import styled from "styled-components/macro";
-import { useQuery } from "@tanstack/react-query";
-import { getAllTasks } from "./features/todo/apis/tasks";
-import ListWrapper from "./features/todo/ListWrapper";
-import NewList from "./features/todo/NewList";
-import { FullscreenLoader } from "./components/loader";
+import { Routes, Route, } from "react-router-dom";
+import Dashboard from "./pages/dashboard";
+import Signup from "./pages/signup";
+import Login from "./pages/login";
+import {AuthProvider} from "./auth";
+
 const App = () => {
-  const { data, isLoading } = useQuery(["lists"], getAllTasks)
-  return <Container>
-    {isLoading ? <FullscreenLoader /> : (<>
-      <NewList />
-      {data.map(list => <ListWrapper key={list.id} list={list} />)}
-    </>)}
-  </Container>
+  return <AuthProvider>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/signup" element={<Signup />} />
+    </Routes>
+  </AuthProvider>
+
+
+
 }
 
-// styed comoment
-const Container = styled.div`  
-  width: 100vw;
-  min-height: 100vh;
-  padding-top: 96px;
-  background: #E8EFEB;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 72px;
-`
-export default App;
+export default App

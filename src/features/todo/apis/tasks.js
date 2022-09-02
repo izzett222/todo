@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = process.env.REACT_APP_API
+const url = `${process.env.REACT_APP_API}/lists`
 export const getAllTasks =  () => {
     return axios.get(url).then(res => {
         return res.data

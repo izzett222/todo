@@ -6,7 +6,7 @@ const GlobalStyles = createGlobalStyle`
 * {
   margin: 0;
 }
-html, body {
+html, body, #root {
   height: 100%;
   font-family: 'Fira Sans', sans-serif;
 }

@@ -2,7 +2,6 @@ import { useState } from "react";
 import styled from "styled-components";
 import newTitle from '../../resources/newtitle.svg'
 import { Loader } from "../../components/loader";
-import { useAuth } from "../../auth";
 
 const Title = ({ handleTitle, title, isLoading }) => {
     const [updateTitle, setUpdateTime] = useState(false)

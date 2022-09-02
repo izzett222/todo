@@ -4,10 +4,26 @@ import { getAllTasks } from "../features/todo/apis/tasks";
 import ListWrapper from "../features/todo/ListWrapper";
 import NewList from "../features/todo/NewList";
 import { FullscreenLoader } from "../components/loader";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth";
+import { useEffect } from "react";
 const Dashboard = () => {
   const { token } = useAuth()
-  const { data, isLoading } = useQuery(["lists"], () => getAllTasks(token))
+  const navigate = useNavigate()
+  const { data, isLoading } = useQuery(["lists"], () => getAllTasks(token), {
+    onError: (error) => {
+      if (error?.response?.status === 409) {
+        navigate('/')
+      }
+    }
+  })
+  useEffect(() => {
+    if (!token) {
+    navigate('/')
+    return;
+  }
+  }, [navigate, token])
+  
   return <Container>
     {isLoading ? <FullscreenLoader /> : (<>
       <NewList />

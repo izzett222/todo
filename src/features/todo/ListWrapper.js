@@ -9,24 +9,34 @@ import line from "../../resources/line.svg"
 import Spacer from "../../components/Spacer";
 import { addNewTask, updateListTitle } from "./apis/tasks";
 import { useAuth } from "../../auth";
+import { useNavigate } from "react-router-dom";
 
 const ListWrapper = ({ list }) => {
     const [addTodo, setAddTodo] = useState(false)
     const queryClient = useQueryClient()
+    const navigate = useNavigate()
     const { token } = useAuth()
-    console.log('list wrapper =========')
-    console.log(token, "======= add new task =======")
     const showAddTodo = () => {
         setAddTodo(true)
       }
       const taskMutation = useMutation((task) => addNewTask(list.id, task, token), {
         onSuccess: () => {
           return queryClient.invalidateQueries(['lists'])
+        },
+        onError: (error) => {
+          if (error?.response?.status === 409) {
+            navigate('/')
+          }
         }
       })
       const titleMutation = useMutation((data) => updateListTitle(list.id, data, token), {
         onSuccess: () => {
           return queryClient.invalidateQueries(['lists'])
+        },
+        onError: (error) => {
+          if (error?.response?.status === 409) {
+            navigate('/')
+          }
         }
       })
     return <TodoListWrapper>

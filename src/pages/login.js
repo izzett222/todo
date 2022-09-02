@@ -1,16 +1,45 @@
 import styled from "styled-components";
+import { useAuth } from "../auth";
+import { signinApi } from "../features/todo/user/apis/auth";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { Loader } from "../components/loader";
 
 const Login = () => {
+    const { token, setToken } = useAuth()
+    const navigate = useNavigate()
+    const { mutate, error, isLoading, isError } = useMutation(signinApi, {
+        onSuccess: (data) => {
+            setToken(data.token)
+            navigate("/dashboard")
+        },
+        onError: (error) => {
+            setToken(null)
+        }
+    })
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        const user = { username: e.target[0].value, password: e.target[1].value}
+        mutate(user)
+
+    }
+    if (token) {
+        return navigate('/dashboard')
+    }
     return <Container>
         <LoginWrapper>
             <h1>Todo</h1>
             <p>Sign in to your account</p>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <Label>Username</Label>
                 <Input placeholder="Enter your Username" />
                 <Label>Password</Label>
                 <Input placeholder="Enter your Password" type="password" />
-                <Button>Sign in</Button>
+                {isError && <ErrorWrapper>{error?.response?.data?.message}</ErrorWrapper>}
+                <Button disabled={isLoading}>
+                {isLoading && <Loader className="loading" />}
+                {isLoading ? 'loading' : 'Signin'}
+                </Button>
             </form>
         </LoginWrapper>
     </Container>
@@ -83,4 +112,16 @@ const Button = styled.button`
     margin-top: 16px;
 
 `
+const ErrorWrapper = styled.p`
+    background: #F0CED4;
+    border-radius: 6px;
+    color: #AF344A;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    max-width: initial;
+    min-width: 100%;
+    `
 export default Login;

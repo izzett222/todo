@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useAuth } from "../auth";
 import { signupApi } from "../features/todo/user/apis/auth";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Loader } from "../components/loader";
 
 const Signup = () => {
@@ -41,6 +41,7 @@ const Signup = () => {
                 {isLoading && <Loader className="loading" />}
                 {isLoading ? 'joining' : 'join'}
                 </Button>
+                <Link to='/' className="connect">already joined. sign in</Link>
             </form>
         </SignupWrapper>
     </Container>
@@ -56,6 +57,10 @@ const Container = styled.div`
         margin-right: 6px;
         position: relative;
         top: 4px;
+    }
+    .connect {
+        display: inline-block;
+        margin-top: 6px;
     }
 `
 const SignupWrapper = styled.div`

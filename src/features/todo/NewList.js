@@ -3,9 +3,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import newlist from "../../resources/newlist.svg";
 import { createNewList } from "./apis/tasks";
 import { Loader } from "../../components/loader";
+import { useAuth } from "../../auth";
 const NewList = () => {
+  const { token } = useAuth()
   const queryClient = useQueryClient()
-  const { mutate, isLoading } = useMutation(createNewList, {
+  const { mutate, isLoading } = useMutation(() => createNewList(token), {
     onSuccess: () => {
       return queryClient.invalidateQueries(['lists'])
     }

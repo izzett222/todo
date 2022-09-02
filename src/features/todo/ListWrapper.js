@@ -8,19 +8,23 @@ import addButton from "../../resources/add.svg"
 import line from "../../resources/line.svg"
 import Spacer from "../../components/Spacer";
 import { addNewTask, updateListTitle } from "./apis/tasks";
+import { useAuth } from "../../auth";
 
 const ListWrapper = ({ list }) => {
     const [addTodo, setAddTodo] = useState(false)
     const queryClient = useQueryClient()
+    const { token } = useAuth()
+    console.log('list wrapper =========')
+    console.log(token, "======= add new task =======")
     const showAddTodo = () => {
         setAddTodo(true)
       }
-      const taskMutation = useMutation((task) => addNewTask(list.id, task), {
+      const taskMutation = useMutation((task) => addNewTask(list.id, task, token), {
         onSuccess: () => {
           return queryClient.invalidateQueries(['lists'])
         }
       })
-      const titleMutation = useMutation((data) => updateListTitle(list.id, data), {
+      const titleMutation = useMutation((data) => updateListTitle(list.id, data, token), {
         onSuccess: () => {
           return queryClient.invalidateQueries(['lists'])
         }

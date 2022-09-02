@@ -4,8 +4,10 @@ import { getAllTasks } from "../features/todo/apis/tasks";
 import ListWrapper from "../features/todo/ListWrapper";
 import NewList from "../features/todo/NewList";
 import { FullscreenLoader } from "../components/loader";
+import { useAuth } from "../auth";
 const Dashboard = () => {
-  const { data, isLoading } = useQuery(["lists"], getAllTasks)
+  const { token } = useAuth()
+  const { data, isLoading } = useQuery(["lists"], () => getAllTasks(token))
   return <Container>
     {isLoading ? <FullscreenLoader /> : (<>
       <NewList />

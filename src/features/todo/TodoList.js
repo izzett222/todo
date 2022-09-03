@@ -14,18 +14,18 @@ const TodoList = ({ todos }) => {
 }
 const Container = styled.div`
     width: auto;
-    margin-left: 32px;
-    margin-right: 32px;
+    margin-left: 16px;
+    margin-right: 16px;
     flex: 1;
     height: 190px;
-    overflow-y: ${({shouldScroll}) => shouldScroll ? 'scroll' : 'none' };
+    overflow: auto;
 `
 const NotTodo = styled.div`
     font-size: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 282px;
+    width: 100%;
     height: 96px;
     text-align: center;
     span {

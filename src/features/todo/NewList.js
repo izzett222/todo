@@ -27,8 +27,8 @@ const TodoListWrapper = styled.button`
   align-items: center;
   flex-direction: column;
   background-color: #F3F3F3;
-  height: 407px;
-  width: 347px;
+  height: 340px;
+  width: 276px;
   border: 1px solid #BDC7C2;
   div {
     font-size: 22px;

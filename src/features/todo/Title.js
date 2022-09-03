@@ -45,9 +45,9 @@ const Input = styled.input`
     font-size: 24px;
     font-weight: 400;
     color: #515854;
-    margin-top: 24px;
-    margin-left: 32px;
-    margin-bottom: 16px;
+    margin-top: 16px;
+    margin-left: 16px;
+    margin-bottom: 8px;
     outline: transparent;
     &::placeholder {
         color: #515854;

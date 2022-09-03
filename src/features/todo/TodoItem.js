@@ -18,7 +18,7 @@ const Checkbox = styled.input`
 `
 const Container = styled.label`
     display: flex;
-    margin-bottom: 12px;
+    margin-bottom: 7px;
 `
 const Todo = styled.span`
     margin-left: 8px;
@@ -27,7 +27,5 @@ const Todo = styled.span`
     color: #47514C;
     font-weight: 400;
     display: inline-block;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #CBD1CE;
 `
 export default TodoItem;

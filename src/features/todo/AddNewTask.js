@@ -30,7 +30,7 @@ const Input = styled.input`
     border: 0;
     background: transparent;
     font-size: 16px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     outline: transparent;
     &::placeholder {
         padding-left: 12px;
@@ -50,7 +50,7 @@ const Button = styled.button`
     padding: 8px 18px;
     border-radius: 6px;
     color: #DFE8E3;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
     font-size: 16px;
     background-color: #43AF75;
     transition: cubic-bezier();

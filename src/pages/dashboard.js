@@ -41,6 +41,6 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 72px;
+  gap: 24px;
 `
 export default Dashboard;

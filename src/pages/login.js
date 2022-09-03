@@ -4,10 +4,12 @@ import { signinApi } from "../features/todo/user/apis/auth";
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { Loader } from "../components/loader";
+import { useEffect } from "react";
 
 const Login = () => {
     const { token, setToken } = useAuth()
     const navigate = useNavigate()
+    
     const { mutate, error, isLoading, isError } = useMutation(signinApi, {
         onSuccess: (data) => {
             setToken(data.token)
@@ -23,9 +25,11 @@ const Login = () => {
         mutate(user)
 
     }
-    if (token) {
-        return navigate('/dashboard')
-    }
+    useEffect(() => {
+        if (token) {
+         return navigate('/dashboard')
+     } 
+     }, [navigate, token])
     return <Container>
         <LoginWrapper>
             <h1>Todo</h1>

@@ -4,6 +4,7 @@ import { signupApi } from "../features/todo/user/apis/auth";
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
 import { Loader } from "../components/loader";
+import { useEffect } from "react";
 
 const Signup = () => {
     const { token, setToken } = useAuth()
@@ -17,6 +18,11 @@ const Signup = () => {
             setToken(null)
         }
     })
+    useEffect(() => {
+       if (token) {
+        return navigate('/dashboard')
+    } 
+    }, [navigate, token])
     const handleSubmit = (e) => {
         e.preventDefault()
         const user = { username: e.target[0].value, password: e.target[1].value}
@@ -24,9 +30,7 @@ const Signup = () => {
 
     }
     const emailTakenMessage = error?.response?.data?.message.includes("already exist") ? "email already taken" : null
-    if (token) {
-        return navigate('/dashboard')
-    }
+    
     return <Container>
         <SignupWrapper>
             <h1>Todo</h1>
